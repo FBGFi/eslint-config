@@ -2,10 +2,11 @@
   "name": "@fbgfi/eslint-config",
   "version": "0.0.0",
   "description": "ESLint configurations for JS/TS projects",
-  "main": "index.js",
+  "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test src/**/*.test.js",
+    "test:watch": "node --test --watch"
   },
   "repository": {
     "type": "git",
@@ -14,7 +15,7 @@
   "author": "FBGFi",
   "license": "ISC",
   "engines": {
-    "node": ">=22.6.0"
+    "node": ">=23.9.0"
   },
   "devDependencies": {
     "eslint": "^9.22.0"
