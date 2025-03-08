@@ -1,3 +1,13 @@
-import { noGlobalArrowFunction, noReassignObjects, noSpreadInReduce, noMutatingInputObjects } from "./rules"
+import {
+  noGlobalArrowFunction,
+  noReassignObjects,
+  noSpreadInReduce,
+  noMutatingInputObjects
+} from "./rules/index.js";
 
-export default { noReassignObjects, noSpreadInReduce, noGlobalArrowFunction, noMutatingInputObjects }
+export {
+  noReassignObjects,
+  noSpreadInReduce,
+  noGlobalArrowFunction,
+  noMutatingInputObjects
+};

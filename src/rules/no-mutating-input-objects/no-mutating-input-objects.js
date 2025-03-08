@@ -5,6 +5,7 @@ function isFunctionExpression(node) {
 }
 
 function isMutatingArrayExpression(node) {
+  if (!node.object || !node.property) return false;
   return node.object.type === "MemberExpression" && (
     node.property.name === "copyWithin"
     || node.property.name === "fill"
@@ -66,9 +67,6 @@ export default {
   },
   create: function (context) {
     return {
-      Program(node) {
-        // console.log("body", node.body[0].body.body)
-      },
       AssignmentExpression(node) {
         if (node.left.type === "MemberExpression") {
           const variableName = node.left.object.name;

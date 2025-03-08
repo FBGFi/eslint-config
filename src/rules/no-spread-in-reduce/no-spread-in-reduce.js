@@ -59,7 +59,7 @@ export default {
         }
       },
       ReturnStatement(node) {
-        if (isObjectExpression(node.argument.type)
+        if (node.argument?.type && isObjectExpression(node.argument.type)
           && node.parent.type === "BlockStatement" &&
           objectHasSpreadElement(node.argument)) {
           let parent = node.parent;

@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "node --test src/**/*.test.js",
-    "test:watch": "node --test --watch"
+    "test:watch": "node --test --watch",
+    "lint": "eslint src"
   },
   "repository": {
     "type": "git",
@@ -14,6 +15,14 @@
   },
   "author": "FBGFi",
   "license": "ISC",
+  "exports": {
+    ".": {
+      "default": "./eslint.config.js"
+    },
+    "./rules": {
+      "default": "./src/index.js"
+    }
+  },
   "engines": {
     "node": ">=23.9.0"
   },
