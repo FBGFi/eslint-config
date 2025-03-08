@@ -1,5 +1,3 @@
-import { isObjectExpression } from "../../utils.js";
-
 function isFunctionExpression(node) {
   return node.type === "ArrowFunctionExpression" || node.type === "FunctionDeclaration";
 }
@@ -35,10 +33,10 @@ function checkDeclarationsAndReportErrors(context, node, variableName) {
       outOfScope = true;
     }
     if (outOfScope && Array.isArray(parent.body)) {
-      for (const node of parent.body) {
+      for (const element of parent.body) {
         if (
-          node.type === "VariableDeclaration"
-          && node.declarations.some((declaration) => declaration.id.name === variableName)
+          element.type === "VariableDeclaration"
+          && element.declarations.some((declaration) => declaration.id.name === variableName)
         ) {
           context.report({
             node,
@@ -56,7 +54,7 @@ export default {
   meta: {
     type: "suggestion",
     docs: {
-      description: "Prevents usage of global arrow expressions",
+      description: "Prevents mutating values outside of function scope.",
     },
     fixable: "code",
     schema: [],
