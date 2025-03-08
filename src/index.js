@@ -1,3 +1,3 @@
-import { noGlobalArrowFunction, noReassignObjects, noSpreadInReduce } from "./rules"
+import { noGlobalArrowFunction, noReassignObjects, noSpreadInReduce, noMutatingInputObjects } from "./rules"
 
-export default { noReassignObjects, noSpreadInReduce, noGlobalArrowFunction }
+export default { noReassignObjects, noSpreadInReduce, noGlobalArrowFunction, noMutatingInputObjects }

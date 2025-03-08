@@ -9,3 +9,6 @@ Objects should not be re-assigned to objects due to possible performance hits an
 
 ## no-spread-in-reduce
 Spreading objects or arrays, especially in return statements of Array.reduce can cause significant performance issues.
+
+## no-mutating-input-objects
+Directly mutating objects that are inputs of a function, or that are not in the same scope can cause unwanted side-effects.
