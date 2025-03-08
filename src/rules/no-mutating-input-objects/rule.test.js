@@ -46,6 +46,18 @@ describe("no-mutating-input-objects", function () {
         },
         {
           code: `function fun(input) {
+              input.push(1);
+          }`,
+          errors: [{ messageId: "noMutatingInputVariables" }]
+        },
+        {
+          code: `function fun(input) {
+              input.values.others.push(1);
+          }`,
+          errors: [{ messageId: "noMutatingInputVariables" }]
+        },
+        {
+          code: `function fun(input) {
               input.values.push(1);
           }`,
           errors: [{ messageId: "noMutatingInputVariables" }]
@@ -87,6 +99,14 @@ describe("no-mutating-input-objects", function () {
           function fun() {
               input.a = 1;
           };`,
+          errors: [{ messageId: "noMutatingOutsideScope" }]
+        },
+        {
+          code: `
+          const input = [];
+          function fun() {
+              input.push(1);
+          }`,
           errors: [{ messageId: "noMutatingOutsideScope" }]
         },
         {

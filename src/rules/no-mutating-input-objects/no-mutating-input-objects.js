@@ -4,7 +4,7 @@ function isFunctionExpression(node) {
 
 function isMutatingArrayExpression(node) {
   if (!node.object || !node.property) return false;
-  return node.object.type === "MemberExpression" && (
+  return (node.object.type === "MemberExpression" || node.object.type === "Identifier") && (
     node.property.name === "copyWithin"
     || node.property.name === "fill"
     || node.property.name === "pop"
