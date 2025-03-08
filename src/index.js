@@ -1,3 +1,3 @@
-import { noReassignObjects } from "./rules"
+import { noReassignObjects, noSpreadInReduce } from "./rules"
 
-export default { noReassignObjects }
+export default { noReassignObjects, noSpreadInReduce }

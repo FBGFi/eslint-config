@@ -1,6 +1,4 @@
-function isObjectExpression(expressionType) {
-  return expressionType === "ObjectExpression" || expressionType === "ArrayExpression"
-}
+import { isObjectExpression } from "../../utils.js";
 
 export default {
   meta: {
@@ -18,7 +16,9 @@ export default {
   create: function (context) {
     return {
       VariableDeclaration(node) {
-        if (node.kind !== "const" && node.declarations.some((dec) => isObjectExpression(dec.init.type))) {
+        if (node.kind !== "const" && node.declarations.some(function (dec) {
+          return isObjectExpression(dec.init.type);
+        })) {
           context.report({
             node,
             messageId: "noMutableObjectDeclaration"
