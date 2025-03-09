@@ -1,12 +1,13 @@
-import { RuleTester } from "eslint";
 import { describe, it } from "node:test";
+import { RuleTester } from "eslint";
 import noReassignObjects from "./no-global-arrow-function.js";
 
 const tester = new RuleTester();
 
-describe("no-global-arrow-function", function () {
-  it("allows using arrow functions within function scopes", function () {
+describe("no-global-arrow-function", () => {
+  it("allows using arrow functions within function scopes", () => {
     tester.run("no-global-arrow-function", noReassignObjects, {
+      invalid: [],
       valid: [
         {
           code: `{const fun = () => {};}`,
@@ -15,12 +16,10 @@ describe("no-global-arrow-function", function () {
           code: `function fun(){const fun = () => {};}`,
         },
       ],
-      invalid: [],
     });
   });
-  it("prevents using arrow functions at global level", function () {
+  it("prevents using arrow functions at global level", () => {
     tester.run("no-global-arrow-function", noReassignObjects, {
-      valid: [],
       invalid: [
         {
           code: `export const fun = () => {};`,
@@ -53,6 +52,7 @@ describe("no-global-arrow-function", function () {
           output: `function fun(param1, param2){}`,
         },
       ],
+      valid: [],
     });
   });
 });

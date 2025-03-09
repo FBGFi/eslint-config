@@ -1,31 +1,26 @@
+import { errorRules, omittedFromTests, plugins, warningRules } from "./index.js";
 import { defineConfig } from "eslint/config";
-
-import {
-  noReassignObjects,
-  noGlobalArrowFunction,
-  noMutatingInputObjects,
-  noSpreadInReduce
-} from "./src/index.js";
 
 export default defineConfig([
   {
-    name: "@fbgfi/eslint-config",
     files: ["**/*.{js,ts,jsx,tsx}"],
-    plugins: {
-      "@fbgfi": {
-        rules: {
-          "no-global-arrow-function": noGlobalArrowFunction,
-          "no-mutating-input-objects": noMutatingInputObjects,
-          "no-reassign-objects": noReassignObjects,
-          "no-spread-in-reduce": noSpreadInReduce,
-        }
-      },
-    },
+    name: "@fbgfi/eslint-config",
+    plugins,
     rules: {
       "@fbgfi/no-global-arrow-function": "error",
       "@fbgfi/no-mutating-input-objects": "warn",
       "@fbgfi/no-reassign-objects": "error",
       "@fbgfi/no-spread-in-reduce": "error",
+      ...errorRules,
+      ...warningRules,
+      ...omittedFromTests
     }
   },
+  {
+    files: ["**/*.{test,spec}.{js,ts,jsx,tsx}"],
+    rules: Object.keys(omittedFromTests).reduce((rules, key) => {
+      rules[key] = "off";
+      return rules;
+    }, {}),
+  }
 ]);

@@ -1,134 +1,134 @@
-import { RuleTester } from "eslint";
 import { describe, it } from "node:test";
+import { RuleTester } from "eslint";
 import noReassignObjects from "./no-reassign-objects.js";
 
 const tester = new RuleTester();
 
-describe("no-reassign-objects", function () {
+describe("no-reassign-objects", () => {
   const validAssignmentCases = [
     {
+      value: "{}",
       variableType: "const",
-      value: "{}"
     },
     {
+      value: "[]",
       variableType: "const",
-      value: "[]"
     },
     {
+      value: "''",
       variableType: "let",
-      value: "''"
     },
     {
+      value: "''",
       variableType: "var",
-      value: "''"
     },
     {
+      value: "0",
       variableType: "let",
-      value: "0"
     },
     {
+      value: "0",
       variableType: "var",
-      value: "0"
     },
     {
+      value: "false",
       variableType: "let",
-      value: "false"
     },
     {
+      value: "false",
       variableType: "var",
-      value: "false"
     },
     {
+      value: "undefined",
       variableType: "let",
-      value: "undefined"
     },
     {
+      value: "undefined",
       variableType: "var",
-      value: "undefined"
     },
     {
+      value: "null",
       variableType: "let",
-      value: "null"
     },
     {
+      value: "null",
       variableType: "var",
-      value: "null"
     },
   ];
 
-  validAssignmentCases.forEach(function ({ variableType, value }) {
-    it(`allows assigning to ${variableType} for ${value}`, function () {
+  validAssignmentCases.forEach(({ variableType, value }) => {
+    it(`allows assigning to ${variableType} for ${value}`, () => {
       tester.run("no-reassign-objects", noReassignObjects, {
+        invalid: [],
         valid: [
           {
             code: `${variableType} variable = ${value};`,
           },
         ],
-        invalid: [],
       });
     })
   });
 
   const validReAssignmentCases = ["''", "0", "false", "undefined", "null"];
 
-  validReAssignmentCases.forEach(function (value) {
-    it(`allows re-assigment for ${value}`, function () {
+  validReAssignmentCases.forEach((value) => {
+    it(`allows re-assigment for ${value}`, () => {
       tester.run("no-reassign-objects", noReassignObjects, {
+        invalid: [],
         valid: [
           {
             code: `variable = ${value};`,
           },
         ],
-        invalid: [],
       });
     })
   });
 
   const invalidAssignmentCases = [
     {
+      value: "{}",
       variableType: "let",
-      value: "{}"
     },
     {
+      value: "{}",
       variableType: "var",
-      value: "{}"
     },
     {
+      value: "[]",
       variableType: "let",
-      value: "[]"
     },
     {
+      value: "[]",
       variableType: "var",
-      value: "[]"
     },
   ];
 
-  invalidAssignmentCases.forEach(function ({ variableType, value }) {
-    it(`prevents assigning to ${variableType} for ${value}`, function () {
+  invalidAssignmentCases.forEach(({ variableType, value }) => {
+    it(`prevents assigning to ${variableType} for ${value}`, () => {
       tester.run("no-reassign-objects", noReassignObjects, {
-        valid: [],
         invalid: [
           {
             code: `${variableType} variable = ${value};`,
             errors: [{ messageId: "noMutableObjectDeclaration" }]
           },
         ],
+        valid: [],
       });
     })
   });
 
   const invalidReassignmentCases = ["{}", "[]"];
 
-  invalidReassignmentCases.forEach(function (value) {
-    it(`prevents reassigning for ${value}`, function () {
+  invalidReassignmentCases.forEach((value) => {
+    it(`prevents reassigning for ${value}`, () => {
       tester.run("no-reassign-objects", noReassignObjects, {
-        valid: [],
         invalid: [
           {
             code: `variable = ${value};`,
             errors: [{ messageId: "noReassignObjects" }]
           },
         ],
+        valid: [],
       });
     })
   });

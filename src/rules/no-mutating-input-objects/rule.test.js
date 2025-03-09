@@ -1,12 +1,13 @@
-import { RuleTester } from "eslint";
 import { describe, it } from "node:test";
+import { RuleTester } from "eslint";
 import noMutatingInputObjects from "./no-mutating-input-objects.js";
 
 const tester = new RuleTester();
 
-describe("no-mutating-input-objects", function () {
-  it("allows mutating values in current scope", function () {
+describe("no-mutating-input-objects", () => {
+  it("allows mutating values in current scope", () => {
     tester.run("no-mutating-input-objects", noMutatingInputObjects, {
+      invalid: [],
       valid: [
         {
           code: `const fun = () => {
@@ -19,12 +20,10 @@ describe("no-mutating-input-objects", function () {
             };`,
         },
       ],
-      invalid: [],
     });
   });
-  it("prevents mutating variables that are function inputs", function () {
+  it("prevents mutating variables that are function inputs", () => {
     tester.run("no-mutating-input-objects", noMutatingInputObjects, {
-      valid: [],
       invalid: [
         {
           code: `const fun = (input) => {
@@ -71,11 +70,11 @@ describe("no-mutating-input-objects", function () {
           errors: [{ messageId: "noMutatingInputVariables" }]
         },
       ],
+      valid: [],
     });
   });
-  it("prevents mutating variables that come from out of scope", function () {
+  it("prevents mutating variables that come from out of scope", () => {
     tester.run("no-mutating-input-objects", noMutatingInputObjects, {
-      valid: [],
       invalid: [
         {
           code: `
@@ -118,6 +117,7 @@ describe("no-mutating-input-objects", function () {
           errors: [{ messageId: "noMutatingOutsideScope" }]
         },
       ],
+      valid: [],
     });
   });
 });

@@ -2,48 +2,69 @@ function isFunctionExpression(node) {
   return node.type === "ArrowFunctionExpression" || node.type === "FunctionDeclaration";
 }
 
+function isMutatingArrayProperty(property) {
+  return property.name === "copyWithin"
+    || property.name === "fill"
+    || property.name === "pop"
+    || property.name === "push"
+    || property.name === "reverse"
+    || property.name === "shift"
+    || property.name === "sort"
+    || property.name === "splice"
+    || property.name === "unshift";
+}
+
 function isMutatingArrayExpression(node) {
-  if (!node.object || !node.property) return false;
+  if (!node.object || !node.property) {
+    return false;
+  }
   return (node.object.type === "MemberExpression" || node.object.type === "Identifier") && (
-    node.property.name === "copyWithin"
-    || node.property.name === "fill"
-    || node.property.name === "pop"
-    || node.property.name === "push"
-    || node.property.name === "reverse"
-    || node.property.name === "shift"
-    || node.property.name === "sort"
-    || node.property.name === "splice"
-    || node.property.name === "unshift"
+    isMutatingArrayProperty(node.property)
   );
+}
+
+function reportedIfMutatingInputVariables({ context, node, params, variableName }) {
+  if (params.some((param) => param.name === variableName)) {
+    context.report({
+      messageId: "noMutatingInputVariables",
+      node,
+    });
+    return true;
+  }
+  return false;
+}
+
+function reportedIfMutatingOutsideScope({ context, node, parent, variableName }) {
+  for (const element of parent.body) {
+    if (
+      element.type === "VariableDeclaration"
+      && element.declarations.some((declaration) => declaration.id.name === variableName)
+    ) {
+      context.report({
+        messageId: "noMutatingOutsideScope",
+        node,
+      });
+      return true;
+    }
+  }
+  return false;
 }
 
 function checkDeclarationsAndReportErrors(context, node, variableName) {
   let parent = node.parent;
   let outOfScope = false;
   while (parent) {
-    if (isFunctionExpression(parent)
-      && parent.params.some((param) => param.name === variableName)
-    ) {
-      context.report({
-        node,
-        messageId: "noMutatingInputVariables"
-      });
-      break;
-    } else if (isFunctionExpression(parent)) {
+    if (isFunctionExpression(parent)) {
+      const reported = reportedIfMutatingInputVariables({ context, node, params: parent.params, variableName });
+      if (reported) {
+        break;
+      }
       outOfScope = true;
     }
     if (outOfScope && Array.isArray(parent.body)) {
-      for (const element of parent.body) {
-        if (
-          element.type === "VariableDeclaration"
-          && element.declarations.some((declaration) => declaration.id.name === variableName)
-        ) {
-          context.report({
-            node,
-            messageId: "noMutatingOutsideScope"
-          });
-          break;
-        }
+      const reported = reportedIfMutatingOutsideScope({ context, node, parent, variableName });
+      if (reported) {
+        break;
       }
     }
     parent = parent.parent;
@@ -51,18 +72,6 @@ function checkDeclarationsAndReportErrors(context, node, variableName) {
 }
 
 export default {
-  meta: {
-    type: "suggestion",
-    docs: {
-      description: "Prevents mutating values outside of function scope.",
-    },
-    fixable: "code",
-    schema: [],
-    messages: {
-      noMutatingInputVariables: "Mutating input variables might cause unwanted behavior, use with caution.",
-      noMutatingOutsideScope: "Mutating variables that are declared outside of current scope might cause unwanted behavior, use with caution.",
-    }
-  },
   create: function (context) {
     return {
       AssignmentExpression(node) {
@@ -86,10 +95,24 @@ export default {
             obj = obj.object;
           }
 
-          if (!variableName) return;
+          if (!variableName) {
+            return;
+          }
           checkDeclarationsAndReportErrors(context, node, variableName);
         }
       },
     };
-  }
+  },
+  meta: {
+    docs: {
+      description: "Prevents mutating values outside of function scope.",
+    },
+    fixable: "code",
+    messages: {
+      noMutatingInputVariables: "Mutating input variables might cause unwanted behavior, use with caution.",
+      noMutatingOutsideScope: "Mutating variables that are declared outside of current scope might cause unwanted behavior, use with caution.",
+    },
+    schema: [],
+    type: "suggestion",
+  },
 }

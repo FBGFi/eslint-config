@@ -1,8 +1,8 @@
 import {
   noGlobalArrowFunction,
+  noMutatingInputObjects,
   noReassignObjects,
-  noSpreadInReduce,
-  noMutatingInputObjects
+  noSpreadInReduce
 } from "./rules/index.js";
 
 export {

@@ -1,12 +1,13 @@
-import { RuleTester } from "eslint";
 import { describe, it } from "node:test";
+import { RuleTester } from "eslint";
 import noSpreadInReduce from "./no-spread-in-reduce.js";
 
 const tester = new RuleTester();
 
-describe("no-spread-in-reduce", function () {
-  it("allows using spread of arrays outside of reduce", function () {
+describe("no-spread-in-reduce", () => {
+  it("allows using spread of arrays outside of reduce", () => {
     tester.run("no-spread-in-reduce", noSpreadInReduce, {
+      invalid: [],
       valid: [
         {
           code: "const a = [...arr];"
@@ -18,11 +19,11 @@ describe("no-spread-in-reduce", function () {
           code: "arr.map((acc, i) => [...acc, i]);",
         },
       ],
-      invalid: [],
     });
   });
-  it("allows using spread of objects outside of reduce", function () {
+  it("allows using spread of objects outside of reduce", () => {
     tester.run("no-spread-in-reduce", noSpreadInReduce, {
+      invalid: [],
       valid: [
         {
           code: "const a = {...obj};"
@@ -31,12 +32,10 @@ describe("no-spread-in-reduce", function () {
           code: "arr.map((acc, i) => ({...acc, i}));",
         },
       ],
-      invalid: [],
     });
   });
-  it("prevents usage of array spread inside reduce", function () {
+  it("prevents usage of array spread inside reduce", () => {
     tester.run("no-spread-in-reduce", noSpreadInReduce, {
-      valid: [],
       invalid: [
         {
           code: "arr.reduce((acc, val) => [...acc, val], []);",
@@ -59,11 +58,11 @@ describe("no-spread-in-reduce", function () {
           errors: [{ messageId: "noSpreadOfReduceAcc" }]
         },
       ],
+      valid: [],
     })
   });
-  it("prevents usage of object spread inside reduce", function () {
+  it("prevents usage of object spread inside reduce", () => {
     tester.run("no-spread-in-reduce", noSpreadInReduce, {
-      valid: [],
       invalid: [
         {
           code: "arr.reduce((acc, val) => ({...acc, val}), {});",
@@ -86,10 +85,12 @@ describe("no-spread-in-reduce", function () {
           errors: [{ messageId: "noSpreadOfReduceAcc" }]
         },
       ],
+      valid: [],
     })
   });
-  it("allows cloning values outside of reduce scope with spread", function () {
+  it("allows cloning values outside of reduce scope with spread", () => {
     tester.run("no-spread-in-reduce", noSpreadInReduce, {
+      invalid: [],
       valid: [
         {
           code: `arr.reduce((acc, current) => {
@@ -99,7 +100,6 @@ describe("no-spread-in-reduce", function () {
           }, []);`,
         },
       ],
-      invalid: [],
     });
   })
 })
