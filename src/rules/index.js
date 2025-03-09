@@ -3,5 +3,4 @@ import noMutatingInputObjects from "./no-mutating-input-objects/no-mutating-inpu
 import noReassignObjects from "./no-reassign-objects/no-reassign-objects.js";
 import noSpreadInReduce from "./no-spread-in-reduce/no-spread-in-reduce.js";
 
-
 export { noReassignObjects, noSpreadInReduce, noGlobalArrowFunction, noMutatingInputObjects }
