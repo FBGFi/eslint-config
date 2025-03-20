@@ -69,9 +69,6 @@ export const errorRules = {
   "no-var": "error",
   "prefer-arrow-callback": "error",
   "prefer-const": "error",
-  "sort-imports": "error",
-  "sort-keys": "error",
-  "sort-vars": "error",
 };
 
 /** Rules that might not always lead to unwanted behavior, but are generally undesired */
