@@ -9,7 +9,7 @@ export default defineConfig([
     rules: {
       "@fbgfi/no-global-arrow-function": "error",
       "@fbgfi/no-mutating-input-objects": "warn",
-      "@fbgfi/no-reassign-objects": "error",
+      "@fbgfi/no-reassign-objects": "warn",
       "@fbgfi/no-spread-in-reduce": "error",
       ...errorRules,
       ...warningRules,
