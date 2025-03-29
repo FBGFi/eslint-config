@@ -1,5 +1,6 @@
 import { errorRules, omittedFromTests, plugins, warningRules } from "./index.js";
 import { defineConfig } from "eslint/config";
+import globals from "globals";
 
 export { plugins };
 
@@ -7,6 +8,12 @@ export const recommended = {
   files: ["**/*.{js,ts,jsx,tsx}"],
   name: "@fbgfi/eslint-config",
   plugins,
+
+  languageOptions: {
+    globals: {
+      ...globals.node
+    }
+  },
   rules: {
     "@fbgfi/no-global-arrow-function": "error",
     "@fbgfi/no-mutating-input-objects": "warn",
