@@ -23,8 +23,8 @@ function reportAndFixIfArrowFunctionExpression(context, node) {
     });
   }
 }
-export default {
 
+export default {
   create: function (context) {
     return {
       ExportNamedDeclaration(node) {

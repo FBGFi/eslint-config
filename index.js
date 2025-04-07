@@ -1,5 +1,6 @@
 /* eslint-disable no-magic-numbers */
 import {
+  noDeprecatedFunctions,
   noGlobalArrowFunction,
   noMutatingInputObjects,
   noReassignObjects,
@@ -13,6 +14,7 @@ export const plugins = {
       "no-mutating-input-objects": noMutatingInputObjects,
       "no-reassign-objects": noReassignObjects,
       "no-spread-in-reduce": noSpreadInReduce,
+      "no-deprecated-functions": noDeprecatedFunctions
     }
   },
 };

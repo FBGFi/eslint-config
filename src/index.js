@@ -1,4 +1,5 @@
 import {
+  noDeprecatedFunctions,
   noGlobalArrowFunction,
   noMutatingInputObjects,
   noReassignObjects,
@@ -9,5 +10,6 @@ export {
   noReassignObjects,
   noSpreadInReduce,
   noGlobalArrowFunction,
-  noMutatingInputObjects
+  noMutatingInputObjects,
+  noDeprecatedFunctions
 };

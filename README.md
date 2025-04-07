@@ -12,3 +12,6 @@ Spreading objects or arrays, especially in return statements of Array.reduce can
 
 ## no-mutating-input-objects
 Directly mutating objects that are inputs of a function, or that are not in the same scope can cause unwanted side-effects.
+
+## no-deprecated-functions
+Allows marking certain function declarations and function calls as deprecated on global level. Useful when cleaning up code bases. Not enforced by default. Requires array of function names to be passed as second argument of options.
